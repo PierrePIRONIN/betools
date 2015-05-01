@@ -1,0 +1,27 @@
+<section ng-controller="DjuController as djuCtrl">
+    <div class="page-header">
+        <h3>Importer un fichier DJU</h3>
+    </div>
+
+    <form>
+        <!--File selection-->
+        <div class="col-lg-3 col-lg-offset-4">
+            <div class="input-group">
+                <input id="dju-ref-filename" type="text" class="form-control" placeholder="Sélectionner un fichier..."
+                       disabled ng-model="djuCtrl.file.name">
+
+                <span class="input-group-btn">
+                    <span class="btn btn-default btn-file">
+                        <span class="glyphicon glyphicon-folder-open" dju-file-importer="djuCtrl.updateFile">
+                            <input id="dju-ref-browse" type="file">
+                        </span>
+                    </span>
+                </span>
+            </div>
+        </div>
+
+        <!--Load button-->
+        <button class="btn btn-primary" type="submit">Importer</button>
+
+    </form>
+</section>
