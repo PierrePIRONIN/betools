@@ -1,14 +1,20 @@
 <section ng-controller="DjuController as djuCtrl">
-    <div class="page-header">
-        <h3>Importer un fichier DJU</h3>
+    <div class="row">
+        <div class="page-header">
+            <h3>Données de référence des DJU</h3>
+        </div>
     </div>
 
-    <form>
-        <!--File selection-->
-        <div class="col-lg-3 col-lg-offset-4">
-            <div class="input-group">
-                <input id="dju-ref-filename" type="text" class="form-control" placeholder="Sélectionner un fichier..."
-                       disabled ng-model="djuCtrl.file.name">
+    <div class="row">
+        <h4>Importer des données</h4>
+
+        <form name="djuRefForm" ng-submit="djuCtrl.importData()">
+            <!--File selection-->
+            <div class="col-lg-4">
+                <div class="input-group">
+                    <input id="dju-ref-filename" type="text" class="form-control"
+                           placeholder="Sélectionner un fichier..."
+                           disabled ng-model="djuCtrl.file.name" required>
 
                 <span class="input-group-btn">
                     <span class="btn btn-default btn-file">
@@ -17,11 +23,17 @@
                         </span>
                     </span>
                 </span>
+                </div>
             </div>
-        </div>
 
-        <!--Load button-->
-        <button class="btn btn-primary" type="submit">Importer</button>
+            <!--Load button-->
+            <div class="col-lg-2">
+                <button class="btn btn-primary" type="submit" ng-disabled="djuRefForm.$invalid">Importer</button>
+            </div>
+        </form>
+    </div>
 
-    </form>
+    <div class="row dju-ref-data">
+        <h4>Données de référence</h4>
+    </div>
 </section>

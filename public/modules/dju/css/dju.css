@@ -22,3 +22,7 @@
 input[disabled] {
     background-color: white !important;
 }
+
+.dju-ref-data {
+    margin-top: 20px;
+}

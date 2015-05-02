@@ -11,7 +11,8 @@ angular.module('dju').directive('djuFileImporter', ['$parse',
                 var callbackMethod = scope.method();
                 var browseButton = element.find('input');
                 browseButton.bind('change', function (changeEvent) {
-                    scope.$apply(callbackMethod(changeEvent.target.files[0]));
+                    var file = changeEvent.target.files[0];
+                    scope.$apply(callbackMethod(file));
                 });
             }
         };
