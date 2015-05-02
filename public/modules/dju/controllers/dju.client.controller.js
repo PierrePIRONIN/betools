@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('dju').controller('DjuController', [ function () {
+angular.module('dju').controller('DjuController', [ 'DjuFile', function (DjuFile) {
     var self = this;
     self.file = {};
 
@@ -9,6 +9,6 @@ angular.module('dju').controller('DjuController', [ function () {
     };
 
     self.importData = function() {
-        // TODO import data
+        DjuFile.importFileCsv(self.file);
     };
 }]);

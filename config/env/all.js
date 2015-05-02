@@ -43,5 +43,6 @@ module.exports = {
 			'public/lib/angular-mocks/angular-mocks.js',
 			'public/modules/*/tests/*.js'
 		]
-	}
+	},
+	tmp: '/home/pierrot/tmp'
 };
