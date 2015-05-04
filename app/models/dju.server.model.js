@@ -10,6 +10,7 @@ var mongoose = require('mongoose'),
  * Dju Schema
  */
 var DjuSchema = new Schema({
+    label: String,
     records: [
         {
             day: {type: Number, min: 1, max: 31, required: true},

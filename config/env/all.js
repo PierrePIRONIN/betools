@@ -15,10 +15,11 @@ module.exports = {
 			css: [
 				'public/lib/bootstrap/dist/css/bootstrap.css',
 				'public/lib/bootstrap/dist/css/bootstrap-theme.css',
-				'public/lib/bootstrap-fileinput/css/fileinput.css'
+				'public/lib/ng-table/dist/ng-table.css'
 			],
 			js: [
 				'public/lib/angular/angular.js',
+				'public/lib/angular-i18n/angular-locale_fr-fr.js',
 				'public/lib/angular-resource/angular-resource.js', 
 				'public/lib/angular-cookies/angular-cookies.js', 
 				'public/lib/angular-animate/angular-animate.js', 
@@ -27,7 +28,7 @@ module.exports = {
 				'public/lib/angular-ui-router/release/angular-ui-router.js',
 				'public/lib/angular-ui-utils/ui-utils.js',
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
-				'public/lib/bootstrap-fileinput/js/fileinput.js'
+				'public/lib/ng-table/dist/ng-table.js'
 			]
 		},
 		css: [
@@ -37,12 +38,11 @@ module.exports = {
 			'public/config.js',
 			'public/application.js',
 			'public/modules/*/*.js',
-			'public/modules/*/*[!tests]*/*.js',
+			'public/modules/*/*[!tests]*/*.js'
 		],
 		tests: [
 			'public/lib/angular-mocks/angular-mocks.js',
 			'public/modules/*/tests/*.js'
 		]
-	},
-	tmp: '/home/pierrot/tmp'
+	}
 };
