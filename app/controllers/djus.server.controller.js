@@ -99,6 +99,15 @@ exports.importCSV = function (req, res) {
                     });
                 });
 
+                // Delete old djus
+                Dju.remove(function(err) {
+                    if (err) {
+                        return res.status(400).send({
+                           message: errorHandler.getErrorMessage(err)
+                        });
+                    }
+                });
+
                 // Save dju in database
                 var djuBean = new Dju(dju);
                 djuBean.save(function (err) {
