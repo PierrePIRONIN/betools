@@ -1,4 +1,6 @@
 <section ng-controller="DjuController as djuCtrl">
+    <span us-spinner spinner-key="referentialSpinner"></span>
+
     <div class="page-header">
         <h3>Données de référence des DJU</h3>
     </div>
@@ -13,13 +15,13 @@
                            placeholder="Sélectionner un fichier..."
                            disabled ng-model="djuCtrl.file.name" required>
 
-                <span class="input-group-btn">
-                    <span class="btn btn-default btn-file input-sm">
-                        <span class="glyphicon glyphicon-folder-open" dju-file-importer="djuCtrl.updateFile">
-                            <input id="dju-ref-browse" type="file">
+                    <span class="input-group-btn">
+                        <span class="btn btn-default btn-file input-sm">
+                            <span class="glyphicon glyphicon-folder-open" dju-file-importer="djuCtrl.updateFile">
+                                <input id="dju-ref-browse" type="file">
+                            </span>
                         </span>
                     </span>
-                </span>
                 </div>
             </div>
 
