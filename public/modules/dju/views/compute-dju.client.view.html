@@ -6,14 +6,16 @@
     <!--Heating period-->
     <h4>Période de chauffage</h4>
 
-    <form class="form-horizontal">
+    <form name="computationForm" class="form-horizontal" novalidate>
         <div class="form-group">
             <label for="idHeatingStartDate" class="col-sm-1 control-label">Mois</label>
             <div class="col-sm-2">
-                <input id="idHeatingStartDate" class="form-control" type="date" placeholder="ex: 15/05" ng-model="djuCtrl.computation.startDate">
+                <input id="idHeatingStartDate" class="form-control" type="date" placeholder="ex: 15/05" ng-model="djuCtrl.computation.startDate"
+                        required ng-pattern="{{djuCtrl.patternDate}}">
             </div>
             <div class="col-sm-2">
-                <input id="idHeatingEndDate" class="form-control" type="date" placeholder="ex: 31/12" ng-model="djuCtrl.computation.endDate">
+                <input id="idHeatingEndDate" class="form-control" type="date" placeholder="ex: 31/12" ng-model="djuCtrl.computation.endDate"
+                        required ng-pattern="{{djuCtrl.patternDate}}">
             </div>
         </div>
 
@@ -21,8 +23,9 @@
             <label class="col-sm-1 control-label">Jours</label>
             <div class="col-sm-11">
                 <label class="checkbox-inline" ng-repeat="weekDay in djuCtrl.weekDays">
-                    <input id="idWeekDay{{weekDay}}" type="checkbox" ng-click="djuCtrl.toggleDay(weekDay)">
-                    {{weekDay}}
+                    <input id="{{weekDay.id}}" type="checkbox" ng-model="weekDay.checked" ng-click="djuCtrl.toggleDay(weekDay)"
+                            ng-required="djuCtrl.computation.weekDays.length==0">
+                    {{weekDay.value}}
                 </label>
             </div>
         </div>
@@ -30,14 +33,16 @@
         <div class="form-group">
             <label for="idTimeStart" class="col-sm-1 control-label">Heures</label>
             <div class="col-sm-2">
-                <input id="idTimeStart" class="form-control" type="text" placeholder="ex: 07:15" ng-model="djuCtrl.computation.startHour">
+                <input id="idTimeStart" class="form-control" type="text" placeholder="ex: 00:15" ng-model="djuCtrl.computation.startHour"
+                        required ng-pattern="{{djuCtrl.patternTimestamp}}">
             </div>
             <div class="col-sm-2">
-                <input id="idTimeEnd" class="form-control" type="text" placeholder="ex: 22:00" ng-model="djuCtrl.computation.endHour">
+                <input id="idTimeEnd" class="form-control" type="text" placeholder="ex: 22:00" ng-model="djuCtrl.computation.endHour"
+                        required ng-pattern="{{djuCtrl.patternTimestamp}}">
             </div>
         </div>
 
-        <button type="submit" class="btn btn-info col-lg-offset-1">Calculer</button>
+        <button type="submit" class="btn btn-info col-lg-offset-1" ng-disabled="computationForm.$invalid">Calculer</button>
     </form>
 
     <br/>
