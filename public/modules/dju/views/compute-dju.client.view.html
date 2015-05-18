@@ -5,8 +5,27 @@
 
     <!--Heating period-->
     <h4>Période de chauffage</h4>
+    <hr/>
 
     <form name="computationForm" class="form-horizontal" novalidate>
+        <div class="form-group">
+            <label for="idHeatingTemperature" class="col-sm-1 control-label">Température</label>
+
+            <div class="col-sm-2">
+                <div class="input-group">
+                    <span class="input-group-addon" id="idCelsius">°C</span>
+                    <input id="idHeatingTemperature" name="heatingTemperature" class="form-control" type="texte"
+                           placeholder="ex: 20.5" ng-model="djuCtrl.computation.temperature"
+                           aria-describedby="idCelsius"
+                           required ng-pattern="{{djuCtrl.patternTemperature}}">
+                </div>
+            </div>
+            <span class="col-sm-1 col-sm-offset-4 glyphicon glyphicon-ok input-ok control-label"
+                  ng-show="!computationForm.heatingTemperature.$invalid"></span>
+            <span class="col-sm-1 col-sm-offset-4 glyphicon glyphicon-remove input-ko control-label"
+                  ng-show="computationForm.heatingTemperature.$invalid"></span>
+        </div>
+
         <div class="form-group">
             <label for="idHeatingStartDate" class="col-sm-1 control-label">Mois</label>
 
@@ -62,7 +81,14 @@
                   ng-show="computationForm.timeStart.$invalid || computationForm.time.$invalid"></span>
         </div>
 
-        <button type="submit" class="btn btn-info col-lg-offset-1" ng-disabled="computationForm.$invalid">Calculer
-        </button>
+        <hr/>
+        <div class="form-group">
+            <label for="idComputationDJU" class="col-sm-1 control-label">DJU</label>
+            <div class="col-sm-2">
+                <input id="idComputationDJU" name="computationDJU" class="form-control" type="text"
+                       ng-model="djuCtrl.computation.dju" disabled>
+            </div>
+            <button type="submit" class="btn btn-info col-sm-1" ng-disabled="computationForm.$invalid">Calculer</button>
+        </div>
     </form>
 </section>

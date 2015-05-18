@@ -42,14 +42,18 @@ angular.module('dju').controller('DjuController', ['DjuFile', 'Dju', 'ngTablePar
         self.regexMinutes = '([0-5][0-9])';
         self.patternDate = '/^' + self.regexDay + '\/' + self.regexMonth + '$/';
         self.patternTimestamp = '/^' + self.regexHours + '(:' + self.regexMinutes + ')?$/';
+        self.patternTemperature = '/^[0-9]{1,3}(\.[0-9]{0,2})?$/'
 
         self.computation = {
+            temperature: null,
             startDate: null,
             endDate: null,
             weekDays: [],
             startHour: null,
-            endHour: null
-        }
+            endHour: null,
+            dju: null
+        };
+
         self.toggleDay = function(day) {
             var index = self.computation.weekDays.indexOf(day.id);
 
@@ -58,8 +62,7 @@ angular.module('dju').controller('DjuController', ['DjuFile', 'Dju', 'ngTablePar
             } else {
                 self.computation.weekDays.push(day.id);
             }
-        }
-
+        };
     }
 ]);
 
