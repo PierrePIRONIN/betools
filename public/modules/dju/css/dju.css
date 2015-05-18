@@ -36,3 +36,11 @@ input[disabled] {
 .table td {
     text-align: center;
 }
+
+.input-ok {
+    color: limegreen;
+}
+
+.input-ko {
+    color: red;
+}

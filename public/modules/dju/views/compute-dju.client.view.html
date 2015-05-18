@@ -9,42 +9,60 @@
     <form name="computationForm" class="form-horizontal" novalidate>
         <div class="form-group">
             <label for="idHeatingStartDate" class="col-sm-1 control-label">Mois</label>
+
             <div class="col-sm-2">
-                <input id="idHeatingStartDate" class="form-control" type="date" placeholder="ex: 15/05" ng-model="djuCtrl.computation.startDate"
-                        required ng-pattern="{{djuCtrl.patternDate}}">
+                <input id="idHeatingStartDate" name="heatingStartDate" class="form-control" type="date"
+                       placeholder="ex: 15/05" ng-model="djuCtrl.computation.startDate"
+                       required ng-pattern="{{djuCtrl.patternDate}}">
             </div>
             <div class="col-sm-2">
-                <input id="idHeatingEndDate" class="form-control" type="date" placeholder="ex: 31/12" ng-model="djuCtrl.computation.endDate"
-                        required ng-pattern="{{djuCtrl.patternDate}}">
+                <input id="idHeatingEndDate" name="heatingEndDate" class="form-control" type="date"
+                       placeholder="ex: 31/12" ng-model="djuCtrl.computation.endDate"
+                       required ng-pattern="{{djuCtrl.patternDate}}">
             </div>
+            <span class="col-sm-1 col-sm-offset-2 glyphicon glyphicon-ok input-ok control-label"
+                  ng-show="!computationForm.heatingStartDate.$invalid && !computationForm.heatingEndDate.$invalid"></span>
+            <span class="col-sm-1 col-sm-offset-2 glyphicon glyphicon-remove input-ko control-label"
+                  ng-show="computationForm.heatingStartDate.$invalid || computationForm.heatingEndDate.$invalid"></span>
         </div>
 
         <div class="form-group">
             <label class="col-sm-1 control-label">Jours</label>
-            <div class="col-sm-11">
+
+            <div class="col-sm-6">
                 <label class="checkbox-inline" ng-repeat="weekDay in djuCtrl.weekDays">
-                    <input id="{{weekDay.id}}" type="checkbox" ng-model="weekDay.checked" ng-click="djuCtrl.toggleDay(weekDay)"
-                            ng-required="djuCtrl.computation.weekDays.length==0">
+                    <input id="{{weekDay.id}}" type="checkbox" ng-model="weekDay.checked"
+                           ng-click="djuCtrl.toggleDay(weekDay)"
+                           ng-required="djuCtrl.computation.weekDays.length==0">
                     {{weekDay.value}}
                 </label>
             </div>
+            <span class="col-sm-1 glyphicon glyphicon-ok input-ok control-label"
+                  ng-show="djuCtrl.computation.weekDays.length!=0"></span>
+            <span class="col-sm-1 glyphicon glyphicon-remove input-ko control-label"
+                  ng-show="djuCtrl.computation.weekDays.length==0"></span>
         </div>
 
         <div class="form-group">
             <label for="idTimeStart" class="col-sm-1 control-label">Heures</label>
+
             <div class="col-sm-2">
-                <input id="idTimeStart" class="form-control" type="text" placeholder="ex: 00:15" ng-model="djuCtrl.computation.startHour"
-                        required ng-pattern="{{djuCtrl.patternTimestamp}}">
+                <input id="idTimeStart" name="timeStart" class="form-control" type="text" placeholder="00:00"
+                       ng-model="djuCtrl.computation.startHour"
+                       ng-pattern="{{djuCtrl.patternTimestamp}}">
             </div>
             <div class="col-sm-2">
-                <input id="idTimeEnd" class="form-control" type="text" placeholder="ex: 22:00" ng-model="djuCtrl.computation.endHour"
-                        required ng-pattern="{{djuCtrl.patternTimestamp}}">
+                <input id="idTimeEnd" name="timeEnd" class="form-control" type="text" placeholder="23:59"
+                       ng-model="djuCtrl.computation.endHour"
+                       ng-pattern="{{djuCtrl.patternTimestamp}}">
             </div>
+            <span class="col-sm-1 col-sm-offset-2 glyphicon glyphicon-ok input-ok control-label"
+                  ng-show="!computationForm.timeStart.$invalid && !computationForm.timeEnd.$invalid"></span>
+            <span class="col-sm-1 col-sm-offset-2 glyphicon glyphicon-remove input-ko control-label"
+                  ng-show="computationForm.timeStart.$invalid || computationForm.time.$invalid"></span>
         </div>
 
-        <button type="submit" class="btn btn-info col-lg-offset-1" ng-disabled="computationForm.$invalid">Calculer</button>
+        <button type="submit" class="btn btn-info col-lg-offset-1" ng-disabled="computationForm.$invalid">Calculer
+        </button>
     </form>
-
-    <br/>
-    {{djuCtrl.computation}}
 </section>
