@@ -122,3 +122,7 @@ exports.importCSV = function (req, res) {
         }
     );
 };
+
+exports.computeDju = function(req, res) {
+    res.json({dju: 2000});
+};

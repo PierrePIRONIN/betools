@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('dju').controller('DjuController', ['DjuFile', 'Dju', 'ngTableParams',
-    function (DjuFile, Dju, ngTableParams) {
+angular.module('dju').controller('DjuController', ['DjuFile', 'Dju', 'DjuComputation', 'ngTableParams',
+    function (DjuFile, Dju, DjuComputation, ngTableParams) {
         var self = this;
 
         // File
@@ -26,7 +26,7 @@ angular.module('dju').controller('DjuController', ['DjuFile', 'Dju', 'ngTablePar
         // Referential
         self.recordsTable = new ngTableParams();
 
-        // Computation
+        // Computation form
         self.weekDays = [
             {id:0, value:'Lundi'},
             {id:1, value:'Mardi'},
@@ -42,17 +42,7 @@ angular.module('dju').controller('DjuController', ['DjuFile', 'Dju', 'ngTablePar
         self.regexMinutes = '([0-5][0-9])';
         self.patternDate = '/^' + self.regexDay + '\/' + self.regexMonth + '$/';
         self.patternTimestamp = '/^' + self.regexHours + '(:' + self.regexMinutes + ')?$/';
-        self.patternTemperature = '/^[0-9]{1,3}(\.[0-9]{0,2})?$/'
-
-        self.computation = {
-            temperature: null,
-            startDate: null,
-            endDate: null,
-            weekDays: [],
-            startHour: null,
-            endHour: null,
-            dju: null
-        };
+        self.patternTemperature = '/^[0-9]{1,3}(\.[0-9]{0,2})?$/';
 
         self.toggleDay = function(day) {
             var index = self.computation.weekDays.indexOf(day.id);
@@ -62,6 +52,25 @@ angular.module('dju').controller('DjuController', ['DjuFile', 'Dju', 'ngTablePar
             } else {
                 self.computation.weekDays.push(day.id);
             }
+        };
+
+        // Computation
+        self.computation = {
+            temperature: null,
+            startDate: null,
+            endDate: null,
+            weekDays: [],
+            startHour: null,
+            endHour: null
+        };
+        self.result = {
+            dju: null
+        };
+
+        self.computeDju = function() {
+            DjuComputation.computeDju(function(dju) {
+                self.result = dju;
+            });
         };
     }
 ]);

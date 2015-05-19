@@ -5,19 +5,18 @@
 
     <!--Heating period-->
     <h4>Période de chauffage</h4>
-    <hr/>
-
+    <br/>
     <form name="computationForm" class="form-horizontal" novalidate>
         <div class="form-group">
             <label for="idHeatingTemperature" class="col-sm-1 control-label">Température</label>
 
             <div class="col-sm-2">
                 <div class="input-group">
-                    <span class="input-group-addon" id="idCelsius">°C</span>
                     <input id="idHeatingTemperature" name="heatingTemperature" class="form-control" type="texte"
                            placeholder="ex: 20.5" ng-model="djuCtrl.computation.temperature"
                            aria-describedby="idCelsius"
                            required ng-pattern="{{djuCtrl.patternTemperature}}">
+                    <span class="input-group-addon" id="idCelsius">°C</span>
                 </div>
             </div>
             <span class="col-sm-1 col-sm-offset-4 glyphicon glyphicon-ok input-ok control-label"
@@ -86,9 +85,9 @@
             <label for="idComputationDJU" class="col-sm-1 control-label">DJU</label>
             <div class="col-sm-2">
                 <input id="idComputationDJU" name="computationDJU" class="form-control" type="text"
-                       ng-model="djuCtrl.computation.dju" disabled>
+                       ng-model="djuCtrl.result.dju" disabled>
             </div>
-            <button type="submit" class="btn btn-info col-sm-1" ng-disabled="computationForm.$invalid">Calculer</button>
+            <button type="submit" class="btn btn-info col-sm-1" ng-click="djuCtrl.computeDju()" ng-disabled="computationForm.$invalid">Calculer</button>
         </div>
     </form>
 </section>

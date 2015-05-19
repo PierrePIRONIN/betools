@@ -8,4 +8,7 @@ module.exports = function(app) {
 
 	app.route('/djus')
 		.get(djus.list);
+
+	app.route('/computeDju')
+		.get(djus.computeDju);
 };
