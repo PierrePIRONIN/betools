@@ -10,15 +10,11 @@ var mongoose = require('mongoose'),
  * Dju Schema
  */
 var DjuSchema = new Schema({
-    label: String,
-    records: [
-        {
-            day: {type: Number, min: 1, max: 31, required: true},
-            month: {type: Number, min: 1, max: 12, required: true},
-            hour: {type: Number, min: 1, max: 24, required: true},
-            temperature: {type: Number, required: true}
-        }
-    ]
+    day: {type: Number, min: 1, max: 31, required: true},
+    month: {type: Number, min: 1, max: 12, required: true},
+    hour: {type: Number, min: 1, max: 24, required: true},
+    temperature: {type: Number, required: true},
+    label: String
 });
 
 mongoose.model('Dju', DjuSchema);

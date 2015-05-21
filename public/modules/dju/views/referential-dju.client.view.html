@@ -46,7 +46,7 @@
 
                 <div class="row">
                     <table ng-table="djuCtrl.recordsTable" class="table table-striped table-condensed">
-                        <tr ng-repeat="record in djuCtrl.djus[0].records">
+                        <tr ng-repeat="record in djuCtrl.djus">
                             <td data-title="'Jour'">
                                 {{record.day | date: 'd'}}
                             </td>

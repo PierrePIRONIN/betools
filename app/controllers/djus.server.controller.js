@@ -84,18 +84,16 @@ exports.importCSV = function (req, res) {
 
                 // Create dju object with records
                 var djusRecords = data.toString().split('\n');
-                var dju = {
-                    label: djuFile.originalFilename,
-                    records: []
-                };
+                var djus = [];
                 djusRecords.map(function (djuRecord) {
                     // pattern is day;month;hour;temperature
                     var data = djuRecord.split(';');
-                    dju.records.push({
+                    djus.push({
                         day: data[0],
                         month: data[1],
                         hour: data[2],
-                        temperature: data[3]
+                        temperature: data[3],
+                        label: djuFile.originalFilename
                     });
                 });
 
@@ -109,20 +107,26 @@ exports.importCSV = function (req, res) {
                 });
 
                 // Save dju in database
-                var djuBean = new Dju(dju);
-                djuBean.save(function (err) {
-                    if (err) {
-                        return res.status(400).send({
-                            message: errorHandler.getErrorMessage(err)
-                        });
-                    }
-                    res.json(djuBean);
+                djus.map(function(dju) {
+                    var djuBean = new Dju(dju);
+                    djuBean.save(function (err) {
+                        if (err) {
+                            return res.status(400).send({
+                                message: errorHandler.getErrorMessage(err)
+                            });
+                        }
+                    });
                 });
+                res.json(djus);
             });
         }
     );
 };
 
 exports.computeDju = function(req, res) {
+    var computation  = req.body.computation;
+
+
+
     res.json({dju: 2000});
 };
