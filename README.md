@@ -2,6 +2,8 @@
 
 **BeTools** is a web application providing features to people working in "Bureau d'Etudes Thermique".
 
+Based on [MEAN.js](http://meanjs.org/) (MongoDB - Express - AngularJS - Node.js)
+
 ## Features
 * DJU (Degré jour unifié)
     * Import data from CSV.
