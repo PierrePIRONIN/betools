@@ -2,8 +2,8 @@
 
 angular.module('dju').factory('DjuComputation', ['$http', function ($http) {
     return {
-        computeDju: function (onSuccess) {
-            $http.get('/computeDju')
+        computeDju: function (computation, onSuccess) {
+            $http.post('/computeDju', computation)
                 .success(onSuccess);
         }
     };

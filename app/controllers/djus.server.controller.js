@@ -125,7 +125,7 @@ exports.importCSV = function (req, res) {
 };
 
 exports.computeDju = function(req, res) {
-    var computation  = req.body.computation;
+    var computation  = req.body;
 
     var startDay = parseInt(computation.startDate.split('/')[0]);
     var startMonth = parseInt(computation.startDate.split('/')[1]);
@@ -147,12 +147,12 @@ exports.computeDju = function(req, res) {
             {month: startMonth, day: {$in: startMonthDays}},
             {month: {$in: middleMonths},  day: {$in: middleMonthDays}},
             {month: endMonth, day: {$in: endMonthDays}}
-        ]
+        ];
     } else if ( (startMonth === endMonth) && (startDay < endDay)) {
         startMonthDays = _.range(startDay, endDay + 1);
         findQuery = [
             {month: startMonth, day: {$in: startMonthDays}}
-        ]
+        ];
     } else {
         startMonthDays = _.range(startDay, 32);
         middleMonths = _.range(startMonth, 13);
@@ -163,7 +163,7 @@ exports.computeDju = function(req, res) {
             {month: startMonth, day: {$in: startMonthDays}},
             {month: {$in: middleMonths},  day: {$in: middleMonthDays}},
             {month: endMonth, day: {$in: endMonthDays}}
-        ]
+        ];
     }
     Dju.find({$or:findQuery}, function(err, djus) {
         if (err) {

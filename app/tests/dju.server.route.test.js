@@ -24,14 +24,12 @@ describe('dju computation', function () {
             request(app)
                 .post('/computeDju')
                 .send({
-                    computation: {
                         temperature: 20,
                         startDate: '01/10',
                         endDate: '31/04',
                         weekDays: [0, 1, 2, 3, 4, 5, 6],
                         startHour: '00:00',
                         endHour: '23:59'
-                    }
                 })
                 .end(function (err, response) {
                     response.status.should.be.equal(200);

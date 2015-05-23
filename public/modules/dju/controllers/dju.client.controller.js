@@ -68,7 +68,8 @@ angular.module('dju').controller('DjuController', ['DjuFile', 'Dju', 'DjuComputa
         };
 
         self.computeDju = function() {
-            DjuComputation.computeDju(function(dju) {
+            DjuComputation.computeDju(self.computation, function(dju) {
+                console.log(dju);
                 self.result = dju;
             });
         };
