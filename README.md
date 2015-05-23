@@ -10,7 +10,7 @@ Based on [MEAN.js](http://meanjs.org/) (MongoDB - Express - AngularJS - Node.js)
     * Computation with several periods.
 
 ## Credits
-Developped by Pierre PIRONIN - 2015.
+Developed by Pierre PIRONIN - 2015.
 
 ## License
 (The MIT License)
