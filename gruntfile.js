@@ -31,7 +31,7 @@ module.exports = function(grunt) {
 			clientViews: {
 				files: watchFiles.clientViews,
 				options: {
-					livereload: true,
+					livereload: true
 				}
 			},
 			clientJS: {
@@ -59,7 +59,7 @@ module.exports = function(grunt) {
 		},
 		csslint: {
 			options: {
-				csslintrc: '.csslintrc',
+				csslintrc: '.csslintrc'
 			},
 			all: {
 				src: watchFiles.clientCSS
@@ -174,4 +174,7 @@ module.exports = function(grunt) {
 
 	// Test task.
 	grunt.registerTask('test', ['env:test', 'mochaTest', 'karma:unit']);
+	grunt.registerTask('test_client', ['env:test', 'karma:unit']);
+	grunt.registerTask('test_server', ['env:test', 'mochaTest']);
+
 };

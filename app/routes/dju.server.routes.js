@@ -10,5 +10,5 @@ module.exports = function(app) {
 		.get(djus.list);
 
 	app.route('/computeDju')
-		.get(djus.computeDju);
+		.post(djus.computeDju);
 };

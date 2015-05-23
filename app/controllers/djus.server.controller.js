@@ -8,7 +8,8 @@ var mongoose = require('mongoose'),
     errorHandler = require('./errors.server.controller'),
     multiparty = require('multiparty'),
     fs = require('fs'),
-    Dju = mongoose.model('Dju');
+    Dju = mongoose.model('Dju'),
+    Big = require('big.js');
 
 /**
  * Create a Dju
@@ -107,7 +108,7 @@ exports.importCSV = function (req, res) {
                 });
 
                 // Save dju in database
-                djus.map(function(dju) {
+                djus.forEach(function(dju) {
                     var djuBean = new Dju(dju);
                     djuBean.save(function (err) {
                         if (err) {
@@ -126,7 +127,65 @@ exports.importCSV = function (req, res) {
 exports.computeDju = function(req, res) {
     var computation  = req.body.computation;
 
+    var startDay = parseInt(computation.startDate.split('/')[0]);
+    var startMonth = parseInt(computation.startDate.split('/')[1]);
+    var endDay = parseInt(computation.endDate.split('/')[0]);
+    var endMonth = parseInt(computation.endDate.split('/')[1]);
+    var computationTemperature = new Big(computation.temperature);
 
+    var startMonthDays = [];
+    var middleMonths = [];
+    var middleMonthDays = [];
+    var endMonthDays = [];
+    var findQuery = [];
+    if(startMonth < endMonth) {
+        startMonthDays = _.range(startDay, 32);
+        middleMonths = _.range(startMonth, endMonth);
+        middleMonthDays = _.range(1, 32);
+        endMonthDays = _.range(1, endDay + 1);
+        findQuery = [
+            {month: startMonth, day: {$in: startMonthDays}},
+            {month: {$in: middleMonths},  day: {$in: middleMonthDays}},
+            {month: endMonth, day: {$in: endMonthDays}}
+        ]
+    } else if ( (startMonth === endMonth) && (startDay < endDay)) {
+        startMonthDays = _.range(startDay, endDay + 1);
+        findQuery = [
+            {month: startMonth, day: {$in: startMonthDays}}
+        ]
+    } else {
+        startMonthDays = _.range(startDay, 32);
+        middleMonths = _.range(startMonth, 13);
+        middleMonths.push.apply(middleMonths, _.range(1, endMonth + 1));
+        middleMonthDays = _.range(1, 32);
+        endMonthDays = _.range(1, endDay + 1);
+        findQuery = [
+            {month: startMonth, day: {$in: startMonthDays}},
+            {month: {$in: middleMonths},  day: {$in: middleMonthDays}},
+            {month: endMonth, day: {$in: endMonthDays}}
+        ]
+    }
+    Dju.find({$or:findQuery}, function(err, djus) {
+        if (err) {
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
+        }
 
-    res.json({dju: 2000});
+        var positiveTemperatures = djus.map(function(dju) {
+            var temperature = computationTemperature.minus(dju.temperature).toFixed(1);
+            if (temperature >= 0) {
+                return temperature;
+            }
+            return 0;
+        });
+
+        var dju = positiveTemperatures.reduce(function(dju, temperature) {
+            return dju.plus(temperature);
+        }, new Big(0));
+
+        dju = dju.div(24).toFixed(0);
+
+        res.json({dju: dju});
+    });
 };

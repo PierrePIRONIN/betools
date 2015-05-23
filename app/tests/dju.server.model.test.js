@@ -29,8 +29,10 @@ describe('Dju Model Unit Tests:', function() {
 
 		user.save(function() { 
 			dju = new Dju({
-				// Add model fields
-				// ...
+				day: 1,
+				month: 1,
+				hour: 1,
+				temperature: 1
 			});
 
 			done();
