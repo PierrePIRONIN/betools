@@ -19,8 +19,8 @@ describe('dju computation', function () {
         });
     });
 
-    describe('from 01/10 to 31/04 with 20°C', function () {
-        it('all the week should return 2661', function (done) {
+    describe('from 01/10 to 31/04 all the week', function () {
+        it(' with 20°C should return 2661', function (done) {
             request(app)
                 .post('/computeDju')
                 .send({
@@ -36,7 +36,26 @@ describe('dju computation', function () {
                     response.body.dju.should.be.exactly('2772');
                     done();
                 });
+        });
+    });
 
+    describe('from 15/10 to 15/04 all the week', function () {
+        it(' with 20°C from 8:00 to 18:00 should return 959', function (done) {
+            request(app)
+                .post('/computeDju')
+                .send({
+                    temperature: 20,
+                    startDate: '15/10',
+                    endDate: '15/04',
+                    weekDays: [0, 1, 2, 3, 4, 5, 6],
+                    startHour: '08:00',
+                    endHour: '18:00'
+                })
+                .end(function (err, response) {
+                    response.status.should.be.equal(200);
+                    response.body.dju.should.be.exactly('959');
+                    done();
+                });
         });
     });
 });
