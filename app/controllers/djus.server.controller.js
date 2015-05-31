@@ -203,8 +203,11 @@ exports.computeDju = function (req, res) {
             return dju.plus(temperature);
         }, new Big(0));
 
-        dju = dju.div(24).toFixed(0);
+        dju = dju.div(24);
 
-        res.json({dju: dju});
+        var weekDaysNumber = computation.weekDays.length;
+        dju = dju.times(weekDaysNumber).div(7);
+
+        res.json({dju: dju.toFixed(0)});
     });
 };
