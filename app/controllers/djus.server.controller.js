@@ -124,90 +124,91 @@ exports.importCSV = function (req, res) {
 };
 
 exports.computeDju = function (req, res) {
-    var computation = req.body;
+    req.body.map(function(computation) {
 
-    var startDay = parseInt(computation.startDate.split('/')[0]);
-    var startMonth = parseInt(computation.startDate.split('/')[1]);
-    var startHour = parseInt(computation.startHour.split(':')[0]);
-    var endDay = parseInt(computation.endDate.split('/')[0]);
-    var endMonth = parseInt(computation.endDate.split('/')[1]);
-    var endHour = parseInt(computation.endHour.split(':')[0]);
-    var endMinutes = parseInt(computation.endHour.split(':')[1]);
-    var computationTemperature = new Big(computation.temperature);
+        var startDay = parseInt(computation.startDate.split('/')[0]);
+        var startMonth = parseInt(computation.startDate.split('/')[1]);
+        var startHour = parseInt(computation.startHour.split(':')[0]);
+        var endDay = parseInt(computation.endDate.split('/')[0]);
+        var endMonth = parseInt(computation.endDate.split('/')[1]);
+        var endHour = parseInt(computation.endHour.split(':')[0]);
+        var endMinutes = parseInt(computation.endHour.split(':')[1]);
+        var computationTemperature = new Big(computation.temperature);
 
-    if (startHour === 0) {
-        startHour = 24;
-    }
-    if (endHour === 0) {
-        endHour = 24;
-    }
-    if (endMinutes === 0) {
-        endHour = endHour - 1;
-    }
-    var hours = [];
-    if (startHour < endHour) {
-        hours = _.range(startHour, endHour + 1);
-    } else {
-        hours = _.range(startHour, 25);
-        hours.push.apply(hours, _.range(1, endHour + 1));
-    }
-
-    var startMonthDays = [];
-    var middleMonths = [];
-    var middleMonthDays = [];
-    var endMonthDays = [];
-    var findQuery = [];
-    if (startMonth < endMonth) {
-        startMonthDays = _.range(startDay, 32);
-        middleMonths = _.range(startMonth, endMonth);
-        middleMonthDays = _.range(1, 32);
-        endMonthDays = _.range(1, endDay + 1);
-        findQuery = [
-            {month: startMonth, day: {$in: startMonthDays}, hour: {$in: hours}},
-            {month: {$in: middleMonths}, day: {$in: middleMonthDays}, hour: {$in: hours}},
-            {month: endMonth, day: {$in: endMonthDays}, hour: {$in: hours}}
-        ];
-    } else if ((startMonth === endMonth) && (startDay < endDay)) {
-        startMonthDays = _.range(startDay, endDay + 1);
-        findQuery = [
-            {month: startMonth, day: {$in: startMonthDays}, hour: {$in: hours}}
-        ];
-    } else {
-        startMonthDays = _.range(startDay, 32);
-        middleMonths = _.range(startMonth + 1, 13);
-        middleMonths.push.apply(middleMonths, _.range(1, endMonth));
-        middleMonthDays = _.range(1, 32);
-        endMonthDays = _.range(1, endDay + 1);
-        findQuery = [
-            {month: startMonth, day: {$in: startMonthDays}, hour: {$in: hours}},
-            {month: {$in: middleMonths}, day: {$in: middleMonthDays}, hour: {$in: hours}},
-            {month: endMonth, day: {$in: endMonthDays}, hour: {$in: hours}}
-        ];
-    }
-    Dju.find({$or: findQuery}, function (err, djus) {
-        if (err) {
-            return res.status(400).send({
-                message: errorHandler.getErrorMessage(err)
-            });
+        if (startHour === 0) {
+            startHour = 24;
+        }
+        if (endHour === 0) {
+            endHour = 24;
+        }
+        if (endMinutes === 0) {
+            endHour = endHour - 1;
+        }
+        var hours = [];
+        if (startHour < endHour) {
+            hours = _.range(startHour, endHour + 1);
+        } else {
+            hours = _.range(startHour, 25);
+            hours.push.apply(hours, _.range(1, endHour + 1));
         }
 
-        var positiveTemperatures = djus.map(function (dju) {
-            var temperature = computationTemperature.minus(dju.temperature).toFixed(1);
-            if (temperature >= 0) {
-                return temperature;
+        var startMonthDays = [];
+        var middleMonths = [];
+        var middleMonthDays = [];
+        var endMonthDays = [];
+        var findQuery = [];
+        if (startMonth < endMonth) {
+            startMonthDays = _.range(startDay, 32);
+            middleMonths = _.range(startMonth, endMonth);
+            middleMonthDays = _.range(1, 32);
+            endMonthDays = _.range(1, endDay + 1);
+            findQuery = [
+                {month: startMonth, day: {$in: startMonthDays}, hour: {$in: hours}},
+                {month: {$in: middleMonths}, day: {$in: middleMonthDays}, hour: {$in: hours}},
+                {month: endMonth, day: {$in: endMonthDays}, hour: {$in: hours}}
+            ];
+        } else if ((startMonth === endMonth) && (startDay < endDay)) {
+            startMonthDays = _.range(startDay, endDay + 1);
+            findQuery = [
+                {month: startMonth, day: {$in: startMonthDays}, hour: {$in: hours}}
+            ];
+        } else {
+            startMonthDays = _.range(startDay, 32);
+            middleMonths = _.range(startMonth + 1, 13);
+            middleMonths.push.apply(middleMonths, _.range(1, endMonth));
+            middleMonthDays = _.range(1, 32);
+            endMonthDays = _.range(1, endDay + 1);
+            findQuery = [
+                {month: startMonth, day: {$in: startMonthDays}, hour: {$in: hours}},
+                {month: {$in: middleMonths}, day: {$in: middleMonthDays}, hour: {$in: hours}},
+                {month: endMonth, day: {$in: endMonthDays}, hour: {$in: hours}}
+            ];
+        }
+        Dju.find({$or: findQuery}, function (err, djus) {
+            if (err) {
+                return res.status(400).send({
+                    message: errorHandler.getErrorMessage(err)
+                });
             }
-            return 0;
+
+            var positiveTemperatures = djus.map(function (dju) {
+                var temperature = computationTemperature.minus(dju.temperature).toFixed(1);
+                if (temperature >= 0) {
+                    return temperature;
+                }
+                return 0;
+            });
+
+            var dju = positiveTemperatures.reduce(function (dju, temperature) {
+                return dju.plus(temperature);
+            }, new Big(0));
+
+            dju = dju.div(24);
+
+            var weekDaysNumber = computation.weekDays.length;
+            dju = dju.times(weekDaysNumber).div(7);
+
+            res.json({dju: dju.toFixed(0)});
         });
-
-        var dju = positiveTemperatures.reduce(function (dju, temperature) {
-            return dju.plus(temperature);
-        }, new Big(0));
-
-        dju = dju.div(24);
-
-        var weekDaysNumber = computation.weekDays.length;
-        dju = dju.times(weekDaysNumber).div(7);
-
-        res.json({dju: dju.toFixed(0)});
     });
 };
