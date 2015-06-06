@@ -153,14 +153,13 @@ exports.computeDju = function (req, res) {
         hours.push.apply(hours, _.range(1, endHour + 1));
     }
     var allDayHours = _.range(1, 25);
-    var allMonthDays = _.range(1, 32);
 
     var startMonthDays = [];
     var middleMonths = [];
     var middleMonthDays = [];
     var endMonthDays = [];
     var findHeatingQuery = [];
-    var findReducedQuery;
+    var findReducedQueryDays = [];
     if (startMonth < endMonth) {
         startMonthDays = _.range(startDay, 32);
         middleMonths = _.range(startMonth, endMonth);
@@ -171,6 +170,11 @@ exports.computeDju = function (req, res) {
             {month: {$in: middleMonths}, day: {$in: middleMonthDays}, hour: {$in: hours}},
             {month: endMonth, day: {$in: endMonthDays}, hour: {$in: hours}}
         ];
+        findReducedQueryDays = [
+            {month: startMonth, day: {$in: startMonthDays}, hour: {$in: allDayHours}},
+            {month: {$in: middleMonths}, day: {$in: middleMonthDays}, hour: {$in: allDayHours}},
+            {month: endMonth, day: {$in: endMonthDays}, hour: {$in: allDayHours}}
+        ];
     } else if ((startMonth === endMonth) && (startDay < endDay)) {
         startMonthDays = _.range(startDay, endDay + 1);
         middleMonths = [];
@@ -178,6 +182,9 @@ exports.computeDju = function (req, res) {
         endMonthDays = [];
         findHeatingQuery = [
             {month: startMonth, day: {$in: startMonthDays}, hour: {$in: hours}}
+        ];
+        findReducedQueryDays = [
+            {month: startMonth, day: {$in: startMonthDays}, hour: {$in: allDayHours}}
         ];
     } else {
         startMonthDays = _.range(startDay, 32);
@@ -190,21 +197,17 @@ exports.computeDju = function (req, res) {
             {month: {$in: middleMonths}, day: {$in: middleMonthDays}, hour: {$in: hours}},
             {month: endMonth, day: {$in: endMonthDays}, hour: {$in: hours}}
         ];
+        findReducedQueryDays = [
+            {month: startMonth, day: {$in: startMonthDays}, hour: {$in: allDayHours}},
+            {month: {$in: middleMonths}, day: {$in: middleMonthDays}, hour: {$in: allDayHours}},
+            {month: endMonth, day: {$in: endMonthDays}, hour: {$in: allDayHours}}
+        ];
     }
 
-    var notReducedMonths = middleMonths.slice();
-    notReducedMonths.push(startMonth);
-    notReducedMonths.push(endMonth);
-    findReducedQuery = [
+    var findReducedQueryHours = [
         {month: startMonth, day: {$in: startMonthDays}, hour: {$nin: hours}},
-        {month: startMonth, day: {$nin: startMonthDays}, hour: {$in: allDayHours}},
-
         {month: {$in: middleMonths}, day: {$in: middleMonthDays}, hour: {$nin: hours}},
-
-        {month: endMonth, day: {$in: endMonthDays}, hour: {$nin: hours}},
-        {month: endMonth, day: {$nin: endMonthDays}, hour: {$in: allDayHours}},
-
-        {month: {$nin: notReducedMonths}, day: {$in: allMonthDays}, hour: {$in: allDayHours}}
+        {month: endMonth, day: {$in: endMonthDays}, hour: {$nin: hours}}
     ];
 
     Dju.find({$or: findHeatingQuery}, function (err, heatingDjus) {
@@ -218,8 +221,7 @@ exports.computeDju = function (req, res) {
         djuHeating = djuHeating.times(weekDaysNumber).div(7).toFixed(0);
 
         if (computation.reducedTemperature !== undefined) {
-            Dju.find({$or: findReducedQuery}, function (err, reducedDjus) {
-                mongoose.set('debug', false);
+            Dju.find({$or: findReducedQueryHours}, function (err, reducedDjus) {
                 if (err) {
                     return res.status(400).send({
                         message: errorHandler.getErrorMessage(err)
@@ -227,11 +229,23 @@ exports.computeDju = function (req, res) {
                 }
 
                 var djuReduced = reduceDjus(reducedDjus, new Big(computation.reducedTemperature));
-                djuReduced = djuReduced.times(7 - weekDaysNumber).div(7).toFixed(0);
+                djuReduced = djuReduced.times(weekDaysNumber).div(7);
 
-                res.json({
-                    djuHeating: djuHeating,
-                    djuReduced: djuReduced
+                Dju.find({$or: findReducedQueryDays}, function (err, reducedDjus) {
+                    mongoose.set('debug', false);
+                    if (err) {
+                        return res.status(400).send({
+                            message: errorHandler.getErrorMessage(err)
+                        });
+                    }
+
+                    var djuReducedDays = reduceDjus(reducedDjus, new Big(computation.reducedTemperature));
+                    djuReducedDays = djuReducedDays.times(7 - weekDaysNumber).div(7);
+
+                    res.json({
+                        djuHeating: djuHeating,
+                        djuReduced: djuReduced.plus(djuReducedDays).toFixed(0)
+                    });
                 });
             });
         } else {
@@ -258,7 +272,6 @@ function reduceDjus(djus, computationTemperature) {
     }, new Big(0));
 
     dju = dju.div(24);
-
 
     return dju;
 }

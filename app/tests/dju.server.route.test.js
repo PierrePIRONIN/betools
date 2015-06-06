@@ -76,7 +76,7 @@ describe('dju computation', function () {
             });
     });
 
-    it('from 15/10 to 15/04, no week-end, with 20°C from 8:00 to 17:00 should return 627 for heating and 1550 for reduced', function (done) {
+    it('from 15/10 to 15/04, no week-end, from 8:00 to 17:00 should return 627 for heating with 20°C and 1550 for reduced with 17°C', function (done) {
         request(app)
             .post('/computeDju')
             .send({
@@ -91,7 +91,47 @@ describe('dju computation', function () {
             .end(function (err, response) {
                 response.status.should.be.equal(200);
                 response.body.djuHeating.should.be.equal('627');
-                response.body.djuReduced.should.be.equal('1550');
+                response.body.djuReduced.should.be.equal('1546');
+                done();
+            });
+    });
+
+    it('from 15/09 to 07/05, no week-end, from 7:00 to 20:00 should return 1089 for heating with 21°C and 417 for reduced with 8°C', function (done) {
+        request(app)
+            .post('/computeDju')
+            .send({
+                temperature: 21,
+                startDate: '15/09',
+                endDate: '07/05',
+                weekDays: [0, 1, 2, 3, 4],
+                startHour: '07:00',
+                endHour: '20:00',
+                reducedTemperature: 8
+            })
+            .end(function (err, response) {
+                response.status.should.be.equal(200);
+                response.body.djuHeating.should.be.equal('1085');
+                response.body.djuReduced.should.be.equal('413');
+                done();
+            });
+    });
+
+    it('from 01/09 to 30/05, week-end, all day should return 885 for heating with 20°C and 184 for reduced with 5°C', function (done) {
+        request(app)
+            .post('/computeDju')
+            .send({
+                temperature: 20,
+                startDate: '01/09',
+                endDate: '30/05',
+                weekDays: [5, 6],
+                startHour: '00:00',
+                endHour: '23:59',
+                reducedTemperature: 5
+            })
+            .end(function (err, response) {
+                response.status.should.be.equal(200);
+                response.body.djuHeating.should.be.equal('886');
+                response.body.djuReduced.should.be.equal('185');
                 done();
             });
     });
