@@ -32,7 +32,8 @@ describe('dju computation', function () {
             })
             .end(function (err, response) {
                 response.status.should.be.equal(200);
-                response.body.dju.should.be.equal('2772');
+                response.body.djuHeating.should.be.equal('2772');
+                (response.body.djuReduced === null).should.be.true;
                 done();
             });
     });
@@ -50,7 +51,8 @@ describe('dju computation', function () {
             })
             .end(function (err, response) {
                 response.status.should.be.equal(200);
-                response.body.dju.should.be.equal('959');
+                response.body.djuHeating.should.be.equal('959');
+                (response.body.djuReduced === null).should.be.true;
                 done();
             });
     });
@@ -68,12 +70,13 @@ describe('dju computation', function () {
             })
             .end(function (err, response) {
                 response.status.should.be.equal(200);
-                response.body.dju.should.be.equal('807');
+                response.body.djuHeating.should.be.equal('807');
+                (response.body.djuReduced === null).should.be.true;
                 done();
             });
     });
 
-    it('from 15/10 to 15/04, no week-end, with 20°C from 8:00 to 17:00 should return 627', function (done) {
+    it('from 15/10 to 15/04, no week-end, with 20°C from 8:00 to 17:00 should return 627 for heating and 1550 for reduced', function (done) {
         request(app)
             .post('/computeDju')
             .send({
@@ -82,11 +85,13 @@ describe('dju computation', function () {
                 endDate: '15/04',
                 weekDays: [0, 1, 2, 3, 4],
                 startHour: '08:00',
-                endHour: '17:00'
+                endHour: '17:00',
+                reducedTemperature: 17
             })
             .end(function (err, response) {
                 response.status.should.be.equal(200);
-                response.body.dju.should.be.equal('627');
+                response.body.djuHeating.should.be.equal('627');
+                response.body.djuReduced.should.be.equal('1550');
                 done();
             });
     });

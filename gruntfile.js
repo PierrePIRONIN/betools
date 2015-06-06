@@ -131,7 +131,7 @@ module.exports = function(grunt) {
 		mochaTest: {
 			src: watchFiles.mochaTests,
 			options: {
-				reporter: 'spec',
+				reporter: 'mocha-spec-cov-alt',
 				require: 'server.js'
 			}
 		},
@@ -176,5 +176,4 @@ module.exports = function(grunt) {
 	grunt.registerTask('test', ['env:test', 'mochaTest', 'karma:unit']);
 	grunt.registerTask('test_client', ['env:test', 'karma:unit']);
 	grunt.registerTask('test_server', ['env:test', 'mochaTest']);
-
 };

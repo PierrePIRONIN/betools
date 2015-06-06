@@ -5,7 +5,13 @@
 var init = require('./config/init')(),
 	config = require('./config/config'),
 	mongoose = require('mongoose'),
-	chalk = require('chalk');
+	chalk = require('chalk'),
+	blanket = require('blanket')({
+	pattern: function (filename) {
+		return !/node_modules/.test(filename)
+			&& /app/.test(filename)
+			&& !/app\/tests}/.test(filename);
+	}});
 
 /**
  * Main application entry file.
