@@ -135,4 +135,24 @@ describe('dju computation', function () {
                 done();
             });
     });
+
+
+    it('from 01/10 to 30/04, all week, all day should return 2772 for heating with 20°C', function (done) {
+        request(app)
+            .post('/computeDju')
+            .send({
+                temperature: 20,
+                startDate: '01/10',
+                endDate: '30/04',
+                weekDays: [0, 1, 2, 3, 4, 5, 6],
+                startHour: '00:00',
+                endHour: '23:59'
+            })
+            .end(function (err, response) {
+                response.status.should.be.equal(200);
+                response.body.djuHeating.should.be.equal('2772');
+                (response.body.djuReduced === null).should.be.true;
+                done();
+            });
+    });
 });
