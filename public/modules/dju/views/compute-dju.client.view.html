@@ -3,13 +3,9 @@
         <h3>Calcul de DJU</h3>
     </div>
 
-    <!--Heating period-->
-    <h4>Période de chauffage</h4>
-    <br/>
-
     <form name="computationForm" class="form-horizontal" novalidate>
         <div class="form-group">
-            <label for="idHeatingTemperature" class="col-sm-1 control-label">Température</label>
+            <label for="idHeatingTemperature" class="col-sm-1 control-label">T° chauffe</label>
 
             <div class="col-sm-2">
                 <div class="input-group">
@@ -81,21 +77,55 @@
                   ng-show="computationForm.timeStart.$invalid || computationForm.time.$invalid"></span>
         </div>
 
+        <div class="form-group">
+            <label for="idReducedTemperature" class="col-sm-1 control-label">T° réduit</label>
+
+            <div class="col-sm-2">
+                <div class="input-group">
+                    <input id="idReducedTemperature" name="reducedTemperature" class="form-control" type="texte"
+                           placeholder="ex: 19" ng-model="djuCtrl.computation.reducedTemperature"
+                           aria-describedby="idCelsiusReduced"
+                           ng-pattern="{{djuCtrl.patternTemperature}}">
+                    <span class="input-group-addon" id="idCelsiusReduced">°C</span>
+                </div>
+            </div>
+            <span class="col-sm-1 col-sm-offset-4 glyphicon glyphicon-ok input-ok control-label"
+                  ng-show="!computationForm.reducedTemperature.$invalid"></span>
+            <span class="col-sm-1 col-sm-offset-4 glyphicon glyphicon-remove input-ko control-label"
+                  ng-show="computationForm.reducedTemperature.$invalid"></span>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-info col-sm-1 col-sm-offset-4" ng-click="djuCtrl.computeDju()"
+                    ng-disabled="computationForm.$invalid">Calculer
+            </button>
+        </div>
         <hr/>
         <div class="form-group">
-            <label for="idComputationDJU" class="col-sm-1 control-label">DJU</label>
+            <label for="idComputationDJU" class="col-sm-1 control-label">DJU chauffe</label>
 
             <div class="col-sm-2">
                 <div class="input-group">
                     <input id="idComputationDJU" name="computationDJU" class="form-control" type="text"
                            aria-describedby="idCelsiusJours"
-                           ng-model="djuCtrl.result.dju" disabled>
+                           ng-model="djuCtrl.result.djuHeating" disabled>
                     <span class="input-group-addon" id="idCelsiusJours">°C.j</span>
                 </div>
             </div>
-            <button type="submit" class="btn btn-info col-sm-1" ng-click="djuCtrl.computeDju()"
-                    ng-disabled="computationForm.$invalid">Calculer
-            </button>
+        </div>
+
+        <div class="form-group">
+            <label for="idComputationDJUReduced" class="col-sm-1 control-label">DJU réduit</label>
+
+            <div class="col-sm-2">
+                <div class="input-group">
+                    <input id="idComputationDJUReduced" name="computationDJUReduced"
+                           class="form-control" type="text"
+                           aria-describedby="idCelsiusJoursReduced"
+                           ng-model="djuCtrl.result.djuReduced" disabled>
+                    <span class="input-group-addon" id="idCelsiusJoursReduced">°C.j</span>
+                </div>
+            </div>
         </div>
     </form>
 </section>
