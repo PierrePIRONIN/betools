@@ -33,7 +33,9 @@ describe('dju computation', function () {
             .end(function (err, response) {
                 response.status.should.be.equal(200);
                 response.body.djuHeating.should.be.equal('2772');
-                (response.body.djuReduced === null).should.be.true;
+                /* jshint ignore:start */
+                should(response.body.djuReduced).be.null;
+                /* jshint ignore:end */
                 done();
             });
     });
@@ -52,7 +54,9 @@ describe('dju computation', function () {
             .end(function (err, response) {
                 response.status.should.be.equal(200);
                 response.body.djuHeating.should.be.equal('959');
-                (response.body.djuReduced === null).should.be.true;
+                /* jshint ignore:start */
+                should(response.body.djuReduced).be.null;
+                /* jshint ignore:end */
                 done();
             });
     });
@@ -71,7 +75,9 @@ describe('dju computation', function () {
             .end(function (err, response) {
                 response.status.should.be.equal(200);
                 response.body.djuHeating.should.be.equal('807');
-                (response.body.djuReduced === null).should.be.true;
+                /* jshint ignore:start */
+                should(response.body.djuReduced).be.null;
+                /* jshint ignore:end */
                 done();
             });
     });
@@ -151,7 +157,9 @@ describe('dju computation', function () {
             .end(function (err, response) {
                 response.status.should.be.equal(200);
                 response.body.djuHeating.should.be.equal('2772');
-                (response.body.djuReduced === null).should.be.true;
+                /* jshint ignore:start */
+                should(response.body.djuReduced).be.null;
+                /* jshint ignore:end */
                 done();
             });
     });

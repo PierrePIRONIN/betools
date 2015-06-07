@@ -8,9 +8,7 @@ var init = require('./config/init')(),
 	chalk = require('chalk'),
 	blanket = require('blanket')({
 	pattern: function (filename) {
-		return !/node_modules/.test(filename)
-			&& /app/.test(filename)
-			&& !/app\/tests}/.test(filename);
+		return !/node_modules/.test(filename) && /app/.test(filename) && !/app\/tests}/.test(filename);
 	}});
 
 /**

@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('dju').controller('DjuController', ['DjuFile', 'Dju', 'DjuComputation', 'ngTableParams',
-    function (DjuFile, Dju, DjuComputation, ngTableParams) {
+angular.module('dju').controller('DjuController', ['DjuFile', 'Dju', 'DjuComputation', 'NgTableParams',
+    function (DjuFile, Dju, DjuComputation, NgTableParams) {
         var self = this;
 
         // File
@@ -24,7 +24,7 @@ angular.module('dju').controller('DjuController', ['DjuFile', 'Dju', 'DjuComputa
         };
 
         // Referential
-        self.recordsTable = new ngTableParams();
+        self.recordsTable = new NgTableParams();
 
         // Computation form
         self.weekDays = [

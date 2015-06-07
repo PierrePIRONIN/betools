@@ -124,6 +124,24 @@ exports.importCSV = function (req, res) {
     );
 };
 
+function reduceDjus(djus, computationTemperature) {
+    var positiveTemperatures = djus.map(function (dju) {
+        var temperature = computationTemperature.minus(dju.temperature).toFixed(1);
+        if (temperature >= 0) {
+            return temperature;
+        }
+        return 0;
+    });
+
+    var dju = positiveTemperatures.reduce(function (dju, temperature) {
+        return dju.plus(temperature);
+    }, new Big(0));
+
+    dju = dju.div(24);
+
+    return dju;
+}
+
 exports.computeDju = function (req, res) {
     var computation = req.body;
     var weekDaysNumber = computation.weekDays.length;
@@ -258,20 +276,3 @@ exports.computeDju = function (req, res) {
     });
 };
 
-function reduceDjus(djus, computationTemperature) {
-    var positiveTemperatures = djus.map(function (dju) {
-        var temperature = computationTemperature.minus(dju.temperature).toFixed(1);
-        if (temperature >= 0) {
-            return temperature;
-        }
-        return 0;
-    });
-
-    var dju = positiveTemperatures.reduce(function (dju, temperature) {
-        return dju.plus(temperature);
-    }, new Big(0));
-
-    dju = dju.div(24);
-
-    return dju;
-}
