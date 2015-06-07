@@ -4,9 +4,11 @@ web:
    - db
   ports:
    - "3000:3000"
-  environment: 
-   NODE_ENV: development
+  environment:
+   NODE_ENV: production
 db:
   image: mongo
   ports: 
    - "27017:27017"
+  volumes:
+   - /opt/mongodb/db:/data/db
