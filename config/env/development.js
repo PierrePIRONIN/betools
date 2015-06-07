@@ -1,7 +1,9 @@
 'use strict';
 
 module.exports = {
-	db: 'mongodb://localhost/betools-dev',
+	//db: 'mongodb://localhost/betools-dev',
+	db: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + process.env.BETOOLS_USER + ':' + process.env.BETOOLS_PWD + '@' + (process.env.DB_1_PORT_27017_TCP_ADDR || 'localhost') + '/betools?authSource=betools&ssl=true',
+
 	app: {
 		title: 'BeTools - Development Environment'
 	},
