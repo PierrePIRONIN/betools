@@ -1,13 +1,17 @@
 # BeTools
 
-**BeTools** is a web application providing features to people working in "Bureau d'Etudes Thermique".
-
-Based on [Meteor](http://meanjs.org/) with [React](https://facebook.github.io/react/)
+**BeTools** is an application providing features to people working in "Bureau d'Etudes Thermique".
 
 ## Features
 * DJU (Degré jour unifié)
     * Import data from CSV.
     * Computation with several periods.
+
+## Technologies
+* [Meteor](http://meanjs.org/) in background
+* [React](https://facebook.github.io/react/) for UI
+* [Velocity](https://velocity.readme.io/) for tests
+* [Electron](http://electron.atom.io/) and meteor package [Electrify](https://github.com/arboleya/electrify) to generate desktop application
 
 ## Credits
 Developed by [Pierre PIRONIN](http://pierrepironin.fr) - 2015.
