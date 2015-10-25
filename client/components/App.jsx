@@ -1,7 +1,18 @@
+const {AppBar, Tabs, Tab} = mui;
+
 App = React.createClass({
     render() {
         return (
-            <h1>Hello World!</h1>
+            <div>
+                <div className="row">
+                    <AppBar title="BeTools"/>
+                </div>
+
+                <div className="row">
+                    <DjuComputation/>
+                    <DjuImport/>
+                </div>
+            </div>
         );
     }
 });

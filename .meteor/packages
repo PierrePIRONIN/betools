@@ -23,3 +23,8 @@ sanjo:jasmine
 velocity:console-reporter
 velocity:html-reporter
 3stack:bignumber
+meteorhacks:npm
+cosmos:browserify
+
+
+npm-container
