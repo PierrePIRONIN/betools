@@ -1,4 +1,3 @@
 .idea/
 betools.iml
-launch_dev.sh
-launch_tests.sh
+node_modules
