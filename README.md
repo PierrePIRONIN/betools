@@ -8,10 +8,10 @@
     * Computation with several periods.
 
 ## Technologies
-* [Meteor](http://meanjs.org/) in background
+* [Sails.js](http://sailsjs.org/) for back-end
 * [React](https://facebook.github.io/react/) and [Material UI](http://material-ui.com) for UI
-* [Velocity](https://velocity.readme.io/) for tests
-* [Electron](http://electron.atom.io/) and meteor package [Electrify](https://github.com/arboleya/electrify) to generate desktop application
+* [Mocha](https://velocity.readme.io/) and [Istanbul](https://gotwarlost.github.io/istanbul/) for tests
+* [Electron](http://electron.atom.io/) for wrapping in desktop application
 
 ## Credits
 Developed by [Pierre PIRONIN](http://pierrepironin.fr) - 2015.
