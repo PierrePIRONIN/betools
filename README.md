@@ -9,7 +9,7 @@
 
 ## Technologies
 * [Meteor](http://meanjs.org/) in background
-* [React](https://facebook.github.io/react/) and [Foundation](http://foundation.zurb.com/) for UI
+* [React](https://facebook.github.io/react/) and [Material UI](http://material-ui.com) for UI
 * [Velocity](https://velocity.readme.io/) for tests
 * [Electron](http://electron.atom.io/) and meteor package [Electrify](https://github.com/arboleya/electrify) to generate desktop application
 

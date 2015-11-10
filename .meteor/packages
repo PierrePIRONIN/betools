@@ -23,3 +23,4 @@ sanjo:jasmine
 velocity:console-reporter
 velocity:html-reporter
 3stack:bignumber
+izzilab:material-ui
